@@ -1,8 +1,10 @@
 package com.javaninja.genercis;
 
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class WildCards {
 
@@ -40,8 +42,29 @@ public class WildCards {
     }
 
     public void contravariance(){
+        List<Fruit> fruits = new ArrayList<Fruit>();
+        List<? super Apple> superList = fruits;
+
+        //we cannot know which supertype it is, but we know that Apple and any of its subtypes will be assignment compatible with it
+        //that's why we can add any og the subtypes
+        superList.add(new Apple());
+        superList.add(new FujiApple());
+
+        //we can't add any of the super type - we don't know nothing about super types
+        superList.add(new Fruit()); // here compiler complains
+
+        // we can't get any object from such a list.
+        //It turns out that you the only thing you can get out of it will be Object
+        //since we cannot know which supertype it is, the compiler can only guarantee that it will be a reference to an Object, since Object is the supertype of any Java type.
+        Fruit a = superList.get(0); //doesn't compile
+        Objects o = superList.get(0); // it works
+
+        fruits.add(new Apple());
 
     }
+
+
+
 
 
 }
